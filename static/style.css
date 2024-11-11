@@ -1,0 +1,141 @@
+/* Reset and Basic Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f9fc;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #2c3e50;
+    color: white;
+}
+
+.header .links a {
+    color: white;
+    text-decoration: none;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.header .links a:hover {
+    color: #3498db;
+}
+
+/* Game Title */
+.tittel {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tittel h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+}
+
+/* Game Container */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+}
+
+/* Images Container for Choices */
+.images-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.choice-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Scores Section */
+.scores {
+    display: flex;
+    justify-content: center;
+    gap: 25%;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.score-item {
+    font-size: 1.2em;
+    color: #34495e;
+    font-weight: bold;
+}
+
+/* Buttons Section */
+.valgg {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.knap {
+    display: inline-block;
+}
+
+.knap button {
+    background-color: #3498db;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.knap button img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.knap button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.knap button:active {
+    transform: scale(1);
+    box-shadow: none;
+}
+
+/* Result Text */
+#resultat {
+    font-size: 1.5em;
+    color: #2c3e50;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}

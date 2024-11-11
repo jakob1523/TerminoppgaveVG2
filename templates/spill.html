@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stein, saks, papir game</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div>
+        <div class="header">
+            <div class="links">
+                <a href="{{url_for('home')}}">Hjem</a>
+                <a href="{{url_for('logout')}}">Log ut</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-container">
+        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
+        <div class="tittel">
+            <h1>Stein, saks, papir</h1>
+        </div>
+
+        <div class="images-container">
+            <img id="valgBilde" class="choice-image" src="static/bilder/Placeholderr.jpg" alt="User's Choice">
+            <p id="resultat"></p>
+            <img id="botBilde" class="choice-image" src="static/bilder/Placeholderr.jpg" alt="Bot's Choice">
+        </div>
+
+        <div class="scores">
+            <p class="score-item" id="scoree">Score: 0</p>
+            <p class="score-item" id="high_score">High score: 0</p>
+        </div>
+
+        <div class="valgg">
+            <div class="knap">
+                <button onclick="userChoice(this.id)" id="rock">
+                    <img src="static/bilder/rock.png" alt="rock">
+                </button>
+            </div>
+            <div class="knap">
+                <button onclick="userChoice(this.id)" id="paper">
+                    <img src="static/bilder/paper.png" alt="paper">
+                </button>
+            </div>
+            <div class="knap">
+                <button onclick="userChoice(this.id)" id="scissor">
+                    <img src="static/bilder/scissor.png" alt="scissor">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
