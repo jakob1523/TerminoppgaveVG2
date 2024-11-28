@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="static/register.css">
+</head>
+<body>
+    <h1>Hjemmeside</h1>
+    <h2>Velg ett spill</h2>
+
+    <div class="games-container">
+       
+        <div class="game-card">
+            <a href="{{ url_for('spill') }}">
+                <img src="static/bilder/spill-bilde.png" alt="Game 1 Image">
+            </a>
+            <p>Stein, saks, papir</p>
+        </div>
+
+      
+        <div class="game-card">
+            <img src="static/bilder/spill-bilde.png" alt="">
+            <p>Game 2</p>
+        </div>
+
+    </div>
+
+    <div class="bottom-links">
+        <a href="{{ url_for('leaderboard') }}">View Leaderboard</a>
+        <a href="{{ url_for('logout') }}">Log ut</a>
+        <a href="{{url_for('login')}}">Login Page</a>
+        <a href="{{url_for('register')}}">Register</a>
+    </div>
+</body>
+</html>
