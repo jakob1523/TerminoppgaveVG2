@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Logg inn</title>
     <link rel="stylesheet" href="static/register.css"> 
 </head>
 <body class="login-page">
@@ -34,10 +34,15 @@
     </form>
 
     <div class="bottom-links">
-        <p class="register-link">Don't have an account? <a href="{{ url_for('register') }}">Registrer her</a>.</p>
-        <p class="register-link">Glemte passord? <a href="{{ url_for('forgot_password') }}" class="forgot-password-link">Klikk her</a></p>
-        <p class="logout-link">Log ut <a href="{{ url_for('logout') }}">Her</a></p>
-        <button class="home-button"><a href="{{url_for('home')}}">Hjem</a></button>
+        <div>
+            <p class="register-link">Har ikke en bruker? <a href="{{ url_for('register') }}">Registrer her</a>.</p>
+        </div>
+        <div>
+            <p class="register-link">Glemte passord? <a href="{{ url_for('forgot_password') }}" class="forgot-password-link">Klikk her</a></p>
+        </div>
+        <div>
+            <p class="register-link">Dra til hjem <a href="{{url_for('home')}}" class="forgot-password-link">Hjem</a></p>
+        </div>
     </div>
 </body>
 </html>

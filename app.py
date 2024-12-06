@@ -11,6 +11,10 @@ import os
 import random
 from flask import jsonify
 from flask_wtf.csrf import CSRFProtect
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -43,6 +47,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
     two_factor_code = db.Column(db.Integer, nullable=True)  # Temporary 2FA code field
@@ -51,26 +56,33 @@ class HighScore(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
-
+    
     user = db.relationship('User', backref=db.backref('high_scores', lazy=True))
 
 class RegisterForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Email"})
-    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    username = StringField(validators=[InputRequired(), Length(min=3, max=50)], render_kw={"placeholder": "Brukernavn"})
+    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Epost"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Passord"})
     submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(username=username.data).first()
+        if existing_user_username:
+            raise ValidationError('That username is already taken. Please choose a different one.')
 
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()
         if existing_user_email:
             raise ValidationError('That email already exists. Please choose a different one.')
 
+
 class LoginForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Email"})
-    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Epost"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Passord"})
     submit = SubmitField('Login')
 
 class ForgotPasswordForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Email"})
+    email = StringField(validators=[InputRequired(), Length(min=6, max=120)], render_kw={"placeholder": "Epost"})
     submit = SubmitField('Reset Password')
 
 class TwoFactorForm(FlaskForm):
@@ -78,8 +90,8 @@ class TwoFactorForm(FlaskForm):
     submit = SubmitField('Verify')
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "New Password"})
-    confirm_password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Confirm Password"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Ny Passord"})
+    confirm_password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Bekreft Passord"})
     submit = SubmitField('Reset Password')
 
 @app.route('/')
@@ -124,21 +136,10 @@ def forgot_password():
     return render_template('forgot_password.html', form=form)
 
 @app.route('/leaderboard', methods=['GET'])
+@login_required
 def leaderboard():
     scores = HighScore.query.order_by(HighScore.score.desc()).all()
     return render_template('leaderboard.html', scores=scores)
-
-@app.route('/delete_score/<int:score_id>', methods=['POST'])
-@login_required
-def delete_score(score_id):
-    score = HighScore.query.get_or_404(score_id)
-    if score.user_id == current_user.id:
-        db.session.delete(score)
-        db.session.commit()
-        flash('Score deleted successfully!', 'success')
-    else:
-        flash('You can only delete your own scores!', 'error')
-    return redirect(url_for('leaderboard'))
 
 @app.route('/reset/<token>', methods=['GET', 'POST'])
 def reset_with_token(token):
@@ -163,10 +164,6 @@ def reset_with_token(token):
 
     return render_template('reset_password.html', form=form)
 
-@app.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -179,11 +176,13 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(email=form.email.data, password=hashed_password)
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 @app.route('/verify_2fa', methods=['GET', 'POST'])
 @login_required
@@ -193,7 +192,7 @@ def verify_2fa():
         if int(form.code.data) == current_user.two_factor_code:
             current_user.two_factor_code = None
             db.session.commit()
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home'))
         else:
             return 'Invalid 2FA code', 401
     return render_template('verify_2fa.html', form=form)
@@ -222,10 +221,23 @@ def save_score():
     
     return jsonify({'success': False, 'message': 'Invalid score'}), 400
 
+
 @app.route('/spill')
 @login_required
 def spill():
     return render_template('spill.html')
+
+@app.route('/flappy')
+@login_required
+def flappy():
+    return render_template('flappy.html')
+
+@app.route('/flappyboard')
+@login_required
+def flappyboard():
+    
+    return render_template('flappyboard.html')
+    
 
 if __name__ == "__main__":
     with app.app_context():
