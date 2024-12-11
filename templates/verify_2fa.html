@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>2FA Verification</title>
+    <link rel="stylesheet" href="static/app.css">
 </head>
 <body>
-    <h2>Enter your 2FA Code</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.code.label }} {{ form.code(size=32) }}
-        </div>
-        <div>
-            {{ form.submit() }}
-        </div>
-    </form>
+    <div class="homepage-wrapper">   
+        <h1>Skriv inn 2FA kode</h1>
+    </div>
+   
+    <div class="fa-form">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.code.label }} {{ form.code(size=32) }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>
