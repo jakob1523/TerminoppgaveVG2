@@ -22,4 +22,10 @@ Nå kan du logge inn på logg inn siden.
 Du må være logget inn for å kunne spille.
 1. Trykk på et spill du har lyst til å spille.
 2. Spill det fram til du har fått en kul score.
-3. Inni spill siden, trykker du på **Se Leaderboard**, for å se hvordan du ligger ann sammenlignet med andre spillere. 
+3. Inni spill siden, trykker du på **Se Leaderboard**, for å se hvordan du ligger ann sammenlignet med andre spillere.
+
+## Teknologier
+- Ubuntu server
+- Python Flask
+- Gunicorn
+- sqlite database
