@@ -31,5 +31,5 @@ Du må være logget inn for å kunne spille.
 - sqlite database
 
 ## Kreditt
-Flappy Bird spill fra Github bruker aaaarafat
+Flappy Bird spill fra Github bruker aaaarafat  
 Snake spill fra Github bruker ImKennyYip
