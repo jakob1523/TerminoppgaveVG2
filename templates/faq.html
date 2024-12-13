@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/app.css">
+    <title>Info</title>
+</head>
+<body>
+
+    <div class="home-header">
+        
+
+        <div class="home-links">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('home')}}">Hjem</a>
+            <a href="{{ url_for('logout') }}">Logg ut</a>
+            
+            {% else %}
+            
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('login') }}">Logg inn</a>
+            <a href="{{ url_for('register') }}">Registrer</a>
+            {% endif %}
+        </div>
+        <div class="header-faq">
+            <a href="{{url_for('faq')}}"><p>Info</p></a>
+        </div>
+    </div>
+
+    <div class="faq-hele">
+        <h1>Info</h1>
+
+    <div class="container">
+        <div class="faq-section">
+            <h2>Om</h2>
+            <p>Dette er en nettside der man logger inn med 2FA for å kunne ha tilgang til innholdet. <br>Det inneholder spill som lagrer scoren din og viser det i leaderboard sammen med andre brukere sine scores.</p>
+        </div>
+        <div class="faq-section">
+            <h2>Brukerveiledning</h2>
+            <h3>Logge inn</h3>
+            <p>Før du kan få tilgang til innholdet i nettsiden, må du logge inn. Hvis du ikke har en bruker, må du registrere en bruker, ved å trykke <strong>Registrer</strong>.</p>
+            <ol>
+                <li>I registrer, skriver du brukernavn, epost, og passordet du vil bruke til nettsiden.</li>
+                <li>Trykk <strong>Registrer</strong> når du er ferdig.</li>
+                <li>Nå kan du logge inn på logg inn siden.</li>
+                <li>Skriv inn epost og passord, og trykk <strong>Logg inn</strong>.</li>
+                <li>Du skal nå bli sendt til en ny side og få tilsendt en kode til din epost.</li>
+                <li>Skriv inn koden som ble sendt, og trykk <strong>Logg inn</strong>, så blir du logget inn.</li>
+                <li>Hvis du er logget inn, kan du logge ut på hjemmesiden.</li>
+            </ol>
+        </div>
+        <div class="faq-section">
+            <h3>Spill og Leaderboard</h3>
+            <ol>
+                <li>Trykk på et spill du har lyst til å spille fra hjemmesiden.</li>
+                <li>Spill det fram til du har fått en kul score.</li>
+                <li>Inni spill siden, trykker du på <strong>Se Leaderboard</strong> for å se hvordan du ligger an sammenlignet med andre spillere.</li>
+            </ol>
+        </div>
+    </div>
+    </div>
+    
+    
+</body>
+</html>

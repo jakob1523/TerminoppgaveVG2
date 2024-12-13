@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard</title>
-    <link rel="stylesheet" href="static/app.css">
-</head>
-
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Snakeboard</title>
+        <link rel="stylesheet" href="static/app.css">
+    </head>
 <body>
 
     <div class="home-header">
@@ -15,9 +13,9 @@
         <div class="home-links">
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('home') }}">Hjem</a>
-            <a href="{{ url_for('spill') }}">Stein, saks, papir</a>
+            <a href="{{ url_for('snake') }}">Snake</a>
             {% else %}
-            <a href="{{ url_for('leaderboard') }}">View Leaderboard</a>
+            <a href="{{ url_for('leaderboard') }}">Se Leaderboard</a>
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
             {% endif %}
@@ -30,7 +28,7 @@
 
     <div class="leaderboard-allt">
         <div class="leaderboard-container">
-            <h1 class="leaderboard-title">Stein, saks, papir</h1>
+            <h1 class="leaderboard-title">Snake</h1>
             <h1 class="leaderboard-title">Leaderboard</h1>
             <table class="leaderboard-table">
                 <thead>
@@ -45,13 +43,20 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ score.user.username }}</td>
-                        <td>{{ score.score }}</td>
+                        <td>{{ score.snakeScore }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
         </div>
     </div>
-</body>
 
+
+
+
+
+
+</body>
 </html>
+

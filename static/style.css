@@ -38,6 +38,35 @@ body {
 .header .links a:hover {
     color: #3498db;
 }
+.header-faq {
+    display: flex;
+    width: 85%;
+    height: 0;
+    position: fixed;
+    justify-content: right;
+    
+}
+
+.header-faq a {
+    color: #f0f0f5;
+    text-decoration: none;
+    font-size: 27px;
+    font-family: "owners-text", sans-serif;
+}
+
+.home-links a:hover {
+    text-decoration: underline;
+}
+
+.header-faq a:hover {
+    text-decoration: underline;
+    color: #1a5276;
+}
+
+.home-links a:hover {
+    color: #1a5276;
+    text-decoration: underline;
+}
 
 /* Game Title */
 .tittel {

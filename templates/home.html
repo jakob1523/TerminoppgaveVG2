@@ -13,13 +13,18 @@
 
         <div class="home-links">
             {% if current_user.is_authenticated %}
+            
             <a href="{{ url_for('logout') }}">Logg ut</a>
             
             {% else %}
-            <a href="{{ url_for('leaderboard') }}">View Leaderboard</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
+
+            <a href="{{ url_for('leaderboard') }}">Se Leaderboard</a>
+            <a href="{{ url_for('login') }}">Logg inn</a>
+            <a href="{{ url_for('register') }}">Registrer</a>
             {% endif %}
+        </div>
+        <div class="header-faq">
+            <a href="{{url_for('faq')}}"><p>Info</p></a>
         </div>
     </div>
 
@@ -43,6 +48,13 @@
                     <img src="static/bilder/flappy.jpg" alt="">
                 </a>        
                 <p>Flappy bird</p>
+            </div>
+
+            <div class="game-card">
+                <a href="{{ url_for('snake') }}">
+                    <img src="static/bilder/snake.jpg" alt="Game 1 Image">
+                </a>
+                <p class="game-name">Snake</p>
             </div>
         </div>
     </div>

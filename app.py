@@ -21,7 +21,7 @@ from flask import session
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-# Mail configuration
+# Mail konfigurasjon
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -30,7 +30,7 @@ app.config['MAIL_PASSWORD'] = 'vvzt mtep bcbz rykr'  # Your email password (or A
 app.config['MAIL_DEFAULT_SENDER'] = 'jakob.skole1511@gmail.com'
 mail = Mail(app)
 
-# Database configuration
+# Database konfigurasjon
 bcrypt = Bcrypt(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "database.db")}'
@@ -65,6 +65,13 @@ class FlappyHighScore(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flappyScore = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', backref=db.backref('flappy_high_scores', lazy=True))
+
+class SnakeHighScore(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    snakeScore = db.Column(db.Integer, nullable=False)
+    user = db.relationship('User', backref=db.backref('snake_high_scores', lazy=True))
+
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=3, max=50)], render_kw={"placeholder": "Brukernavn"})
@@ -146,12 +153,6 @@ def forgot_password():
             flash('Email address not found.', 'warning')
     return render_template('forgot_password.html', form=form)
 
-@app.route('/leaderboard', methods=['GET'])
-@login_required
-def leaderboard():
-    scores = HighScore.query.order_by(HighScore.score.desc()).all()
-    return render_template('leaderboard.html', scores=scores)
-
 @app.route('/reset/<token>', methods=['GET', 'POST'])
 def reset_with_token(token):
     try:
@@ -193,6 +194,7 @@ def register():
         flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 
 @app.route('/verify_2fa', methods=['GET', 'POST'])
@@ -270,18 +272,56 @@ def flappy_score():
 
     return jsonify({'success': False, 'message': 'Invalid score'}), 400
 
+@app.route('/snake_score', methods=['POST'])
+@login_required
+def snake_score():
+    data = request.get_json()
+    score = data.get('score')
+
+    if score is not None:
+        # Check if user already has a high score
+        existing_score = SnakeHighScore.query.filter_by(user_id=current_user.id).first()
+
+        if existing_score:
+            # Update existing score if new score is higher
+            if score > existing_score.snakeScore:
+                existing_score.snakeScore = score
+        else:
+            # Create new high score entry
+            new_score = SnakeHighScore(user_id=current_user.id, snakeScore=score)
+            db.session.add(new_score)
+
+        db.session.commit()
+        return jsonify({'success': True, 'message': 'Score saved successfully'})
+
+    return jsonify({'success': False, 'message': 'Invalid score'}), 400
 
 
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
 
 @app.route('/spill')
 @login_required
 def spill():
     return render_template('spill.html')
 
+@app.route('/snake')
+@login_required
+def snake():
+    return render_template('snake.html')
+
 @app.route('/flappy')
 @login_required
 def flappy():
     return render_template('flappy.html')
+
+@app.route('/leaderboard', methods=['GET'])
+@login_required
+def leaderboard():
+    scores = HighScore.query.order_by(HighScore.score.desc()).all()
+    return render_template('leaderboard.html', scores=scores)
 
 @app.route('/flappyboard', methods=['GET'])
 @login_required
@@ -289,6 +329,11 @@ def flappyboard():
     scores = FlappyHighScore.query.order_by(FlappyHighScore.flappyScore.desc()).all()
     return render_template('flappyboard.html', scores=scores)
 
+@app.route('/snakeboard', methods=['GET'])
+@login_required
+def snakeboard():
+    scores = SnakeHighScore.query.order_by(SnakeHighScore.snakeScore.desc()).all()
+    return render_template('snakeboard.html', scores = scores)
 
 
     

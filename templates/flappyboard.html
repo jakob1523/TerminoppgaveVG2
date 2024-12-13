@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Leaderboard</title>
+        <title>Flappyboard</title>
         <link rel="stylesheet" href="static/app.css">
     </head>
 <body>
@@ -28,6 +28,9 @@
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
             {% endif %}
+        </div>
+        <div class="header-faq">
+            <a href="{{url_for('faq')}}"><p>Info</p></a>
         </div>
     </div>
 
