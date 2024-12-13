@@ -10,6 +10,15 @@
 
 <body>
     <div class="home-header">
+        <div class="header-logget">
+            {% if current_user.is_authenticated %}
+            <p style="font-weight: bold;">Logget inn som: {{ current_user.username }}</p>
+
+            {% else %}
+            <p style="font-weight: bold;">Ikke logget inn</p>
+            {% endif %}
+        </div>
+        
 
         <div class="home-links">
             {% if current_user.is_authenticated %}

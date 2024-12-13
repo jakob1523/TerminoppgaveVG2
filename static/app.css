@@ -22,6 +22,22 @@ body {
     opacity: 0.99;
 }
 
+.header-logget {
+    display: flex;
+    width: 85%;
+    height: 0;
+    position: fixed;
+    justify-content: left;
+    margin-top: 15px;
+}
+
+.header-logget p {
+    color: #f0f0f5;
+    text-decoration: none;
+    font-size: 27px;
+    font-family: "owners-text", sans-serif;
+}
+
 .header-faq {
     display: flex;
     width: 85%;
@@ -37,6 +53,8 @@ body {
     font-size: 27px;
     font-family: "owners-text", sans-serif;
 }
+
+
 
 .header-faq a:hover {
     text-decoration: underline;
@@ -730,7 +748,7 @@ input[type="submit"]:hover {
     margin-bottom: 20px;
 }
 .faq-section h2 {
-    color: #007BFF;
+    color: #064180;
     font-size: 20px;
 
 }

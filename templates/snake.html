@@ -14,16 +14,30 @@
         
 
         <div class="home-header">
+            <div class="header-logget">
+                {% if current_user.is_authenticated %}
+                <p style="font-weight: bold;">Logget inn som: {{ current_user.username }}</p>
+    
+                {% else %}
+                <p style="font-weight: bold;">Ikke logget inn</p>
+                {% endif %}
+            </div>
+            
+    
             <div class="home-links">
                 {% if current_user.is_authenticated %}
-                <a href="{{ url_for('home') }}">Hjem</a>
-                <a href="{{ url_for('snakeboard') }}">Leaderboard</a>
+                <a href="{{ url_for('home')}}">Hjem</a>
+                <a href="{{ url_for('snakeboard') }}">Se leaderboard</a>
+                
                 {% else %}
-                <p>Du skal ikke se dette</p>
+    
+                <a href="{{ url_for('leaderboard') }}">Se Leaderboard</a>
+                <a href="{{ url_for('login') }}">Logg inn</a>
+                <a href="{{ url_for('register') }}">Registrer</a>
                 {% endif %}
             </div>
             <div class="header-faq">
-                <a href="{{ url_for('faq') }}"><p>Info</p></a>
+                <a href="{{url_for('faq')}}"><p>Info</p></a>
             </div>
         </div>
 

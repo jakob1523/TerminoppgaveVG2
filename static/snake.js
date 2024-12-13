@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // CSRF token access
+    
     const csrfToken = document.getElementById('csrf_token').value;
 
     var blockSize = 25;
@@ -29,16 +29,15 @@ document.addEventListener("DOMContentLoaded", function() {
         board = document.getElementById("board");
         board.height = rows * blockSize;
         board.width = cols * blockSize;
-        context = board.getContext("2d"); // Used for drawing on the board
-
-        scoree = document.getElementById('snake-score'); // Reference score element
+        context = board.getContext("2d"); 
+        scoree = document.getElementById('snake-score'); 
 
         placeFood();
 
         document.addEventListener("keyup", changeDirection);
-        setInterval(update, 1000 / 10); // 100 milliseconds
+        setInterval(update, 1000 / 8); 
 
-        // Add event listener for replay
+        
         document.addEventListener("keydown", (e) => {
             if (gameOver && e.code === "Enter") {
                 resetGame();
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken // Use the CSRF token from the input field
+                'X-CSRFToken': csrfToken 
             },
             body: JSON.stringify({
                 score: score
