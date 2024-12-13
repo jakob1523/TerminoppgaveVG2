@@ -2,7 +2,7 @@
 
 ## Beskrivelse
 
-En nettside der man logger inn med 2fa, i nettsiden kan man velge mellom spill, spille det også se på leaderbord med andre brukere. 
+En nettside der man logger inn med 2fa, i nettsiden kan man velge mellom spill, spille det også se på leaderboard med andre brukere. 
 
 ## Brukeveiledning
 
@@ -29,3 +29,7 @@ Du må være logget inn for å kunne spille.
 - Python Flask
 - Gunicorn
 - sqlite database
+
+## Kreditt
+Flappy Bird spill fra Github bruker aaaarafat
+Snake spill fra Github bruker ImKennyYip
